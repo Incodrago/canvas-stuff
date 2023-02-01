@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Canvas Test</title>
+  <meta charset="utf-8" />
+  <script type="text/javascript">
+  window.onload = function() {
+    const canvas = document.getElementById("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    const colors = ["#EEE", "#FC0", "#F90", "#FF0"];
+
+    let mouse = {
+      x: canvas.width / 2,
+      y: canvas.height / 2
+    };
+
+
+    function Circle(x, xvelocity, y, yvelocity, radius, color) {
+      this.x = x;
+      this.xvelocity = xvelocity;
+      this.y = y;
+      this.yvelocity = yvelocity;
+      this.radius = radius;
+      this.color = color;
+
+      this.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.strokeStyle = this.color;
+        ctx.stroke();
+      }
+
+      this.update = function() {
+        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+          this.xvelocity = -this.xvelocity;
+        }
+
+        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+          this.yvelocity = -this.yvelocity;
+        }
+
+        this.x += this.xvelocity;
+        this.y += this.yvelocity;
+        this.radius -= 0.5;
+
+        this.draw();
+        }
+      };
+
+      document.body.addEventListener("mousemove", function(event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+      });
+
+      let circleArray = [];
+
+      function animate() {
+        setTimeout(animate, 10);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let x = mouse.x;
+        let y = mouse.y;
+        let radius = 30;
+        let xve = (Math.random() - 0.5) * 2;
+        let yve = (Math.random() - 0.5) * 2;
+        let clr = colors[Math.floor(Math.random() * colors.length)];
+        if (circleArray.length > 50) circleArray.splice(circleArray.length - 1, 1);
+        circleArray.unshift(new Circle(x, xve, y, yve, radius, clr));
+        for (let i = 0; i < circleArray.length; i++) {
+          circleArray[i].update();
+        }
+      };
+
+      animate();
+    };
+
+  </script>
+  <style>
+    body {
+      margin: 0px;
+      overflow: hidden;
+    }
+    #canvas {
+      display: block;
+      background-color: #1E1E1E;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+</html>
