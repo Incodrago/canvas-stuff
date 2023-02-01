@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Neural Network</title>
+  <style>body {margin: 0px; overflow: hidden;} canvas {display: block;}</style>
+  <script type="text/javascript">
+  window.onload = () => {
+    const canvas = document.getElementById("canvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    let random = {
+      x: undefined,
+      y: undefined
+    };
+
+    function distanceXY(x0, y0, x1, y1) {
+      var d1 = x1 - x0,
+          d2 = y1 - y0;
+      return Math.sqrt(d1 * d1 + d2 * d2);
+    };
+
+    function Neuron(x, y, radius, velocity) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.velocity = velocity;
+
+      this.draw = () => {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, Math.PI * 2, 0, false);
+        ctx.fillStyle = "#F69";
+        ctx.fill();
+      }
+
+      this.update = () => {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+
+        if (this.x + this.radius >= canvas.width || this.x - this.radius <= 0) this.velocity.x = -this.velocity.x;
+        if (this.y + this.radius >= canvas.height || this.y - this.radius <= 0) this.velocity.y = -this.velocity.y;
+
+        for (let j = 0;j < neuronsArray.length;j++) {
+          if (neuronsArray[j] === this) continue;
+          if (distanceXY(neuronsArray[j].x, neuronsArray[j].y, this.x, this.y) < (canvas.width + canvas.height) / 18) {
+            ctx.beginPath();
+            ctx.strokeStyle = "#DDD";
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(neuronsArray[j].x, neuronsArray[j].y);
+            ctx.stroke();
+          }
+        }
+
+        this.draw();
+      }
+
+    }
+
+    let neuronsArray = [];
+
+    for (let i = 0;i < 70;i++) {
+      do {random.x = Math.floor(Math.random() * 4) - 2;} while (random.x === 0);
+      do {random.y = Math.floor(Math.random() * 4) - 2;} while (random.y === 0);
+      neuronsArray.push(new Neuron(Math.random() * (canvas.width - 2 * 20) + 20, Math.random() * (canvas.height - 2 * 20) + 20, Math.floor(Math.random() * 10) + 5, {x: random.x, y: random.y}));
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      neuronsArray.forEach(neuron => neuron.update());
+    }
+
+    animate();
+  }
+  </script>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+</html>
