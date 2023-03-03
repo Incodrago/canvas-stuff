@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>Neural Network</title>
-  <style>body {margin: 0px; overflow: hidden;} canvas {display: block;}</style>
+  <style>body {margin: 0px; overflow: hidden;} canvas {display: block; background-color: #1E1E1E;}</style>
   <script type="text/javascript">
   window.onload = () => {
     const canvas = document.getElementById("canvas");
@@ -30,7 +30,7 @@
       this.draw = () => {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, Math.PI * 2, 0, false);
-        ctx.fillStyle = "#F69";
+        ctx.fillStyle = "#009BFF";
         ctx.fill();
       }
 
@@ -43,9 +43,10 @@
 
         for (let j = 0;j < neuronsArray.length;j++) {
           if (neuronsArray[j] === this) continue;
-          if (distanceXY(neuronsArray[j].x, neuronsArray[j].y, this.x, this.y) < (canvas.width + canvas.height) / 18) {
+          let distance = distanceXY(neuronsArray[j].x, neuronsArray[j].y, this.x, this.y);
+          if (distance < (canvas.width + canvas.height) / 18) {
             ctx.beginPath();
-            ctx.strokeStyle = "#DDD";
+            ctx.strokeStyle = `rgba(221, 221, 221, ${1-(distance/((canvas.width + canvas.height) / 18))})`;
             ctx.moveTo(this.x, this.y);
             ctx.lineTo(neuronsArray[j].x, neuronsArray[j].y);
             ctx.stroke();
