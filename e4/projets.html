@@ -65,11 +65,21 @@
             font-size: 72px;
             transition: font-size 1s;
         }
+        #retour {
+            position: fixed;
+            top: 2%;
+            left: 2%;
+            z-index: 1;
+        }
+        button:hover {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <button id="previous" onclick="previous()"><i class="fas fa-angle-left" style="color: #ffffff;"></i></button>
     <button id="next" onclick="next()"><i class="fas fa-angle-right" style="color: #ffffff;"></i></button>
+    <a href="../e4testing.html" id="retour"><i class="far fa-arrow-alt-circle-left" style="color: #ffffff;"></i></a>
     <div class="horizontal-scroll-wrapper">
         <div>
             item1    
