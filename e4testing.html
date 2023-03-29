@@ -3,7 +3,19 @@
 <head>
     <meta charset="utf-8">
     <title>Demars Thibaud</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        @use postcss-preset-env {
+            stage: 0;
+        }
+
+        :root {
+            --color-background: rgb(0, 1, 25, 1);/*#000119;*/
+            --stroke-width: calc(1em / 16);
+            --font-size: 8vw;
+            --font-weight: 700;
+            --letter-spacing: calc(1em / 8);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -11,11 +23,16 @@
         }
         body {
             font-family: "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+            display: grid;
+            margin: 0;
+            place-items: center;
+            scroll-snap-type: y mandatory;
         }
         .header, .footer {
             background-color: #001627;
             color: white;
             height: 200px;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,8 +40,8 @@
 
         .card {
             width: 100vw;
-            height: 100vw;
-            background: rgb(20, 50, 100, 0.8);
+            height: 101vh;
+            background-color: #2E22AC;
             color: white;
             display: flex;
             align-items: center;
@@ -32,6 +49,8 @@
             position: sticky;
             top: 0;
             left: 0;
+            scroll-snap-align: start;
+
         }
         .card img {
             position: absolute;
@@ -47,60 +66,167 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 80vw;
+            min-width: 80vw;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
         }
+        #card-holder {
+            display: block;
+            margin-top: -10%;
+            min-width: 70vw;
+        }
+        
+        h1 {
+            background-clip: text;
+            background-image: linear-gradient(to right, #2E22AC, #6A30A8, #D7499F);/*(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f);*/
+            color: var(--color-background);
+            font-size: var(--font-size);
+            font-weight: var(--font-weight);
+            letter-spacing: var(--letter-spacing);
+            padding: calc(--stroke-width / 2);
+            -webkit-text-stroke-color: transparent;
+            -webkit-text-stroke-width: var(--stroke-width);
+        }
+        h2 {
+            background-clip: text;
+            background-image: linear-gradient(to right, #2E22AC, #6A30A8, #D7499F);/*(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f);*/
+            color: var(--color-background);
+            font-size: 36px;
+            font-weight: var(--font-weight);
+            letter-spacing: var(--letter-spacing);
+            padding: calc(--stroke-width / 2);
+            -webkit-text-stroke-color: transparent;
+            -webkit-text-stroke-width: var(--stroke-width);
+        }
+        #subtext {
+            margin-left: 5%;
+            font-size: 36px;
+        }
+        button {
+            background-color: #6A30A8; /* Purple */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 30px;
+            margin: 20px;
+            width: 25%;
+        }
+        .desc {
+            font-size: 24px;
+        }
+        #link {
+            font-size: 48px;
+        }
     </style>
 </head>
 <body>
-    <div>
-        <div class="card">
-            <img src="./img/presentation.jpg" alt=""/>
-            <div class="card-content">
-            BIENVENUE<br>
-            Je suis DEMARS Thibaud,<br><br><br>
-            <span id="link">---------------------------------</span>
+    <div class="card">
+        <img src="./img/presentation.jpg" alt=""/>
+        <div class="card-content">
+        <div id="card-holder">
+            <h1>Bienvenue.</h1><br>
+            <div id="subtext">
+            <span>
+            Découvrez de quoi peut être composé votre lendemain.
+            </span>
+            
             </div>
         </div>
-        <div class="card">
-            <img src="./img/parcours.jpg" alt=""/>
-            <div class="card-content">
-            Mon parcours
+        </div>
+    </div>
+    <div class="card">
+        <div class="scroll-aid">
+        <img src="./img/apropos.jpg" alt=""/>
+        <div class="card-content">
+            <div id="card-holder">
+                <h2>À propos</h2>
+                <br>
+                <span id="link"></span>
+                <br>
+                <br>
+                <p class="desc">Je suis Thibaud Demars, un étudiant passioné cherchant à<br>
+                    développer les applications du lendemain. J'ai de l'expérience en<br>
+                    développement web (fullstack), applications de bureau et rendu 3D.</p>
+                <a href="./e4/parcours.html"><button><i class="fas fa-arrow-right" style="color: #ffffff;"></i>  Voir mon parcours</button></a>
             </div>
         </div>
-        <div class="card">
-            <img src="./img/entreprise.jpg" alt=""/>
-            <div class="card-content">
-            Mon entreprise
+        </div>
+    </div>
+    <div class="card">
+        <div class="scroll-aid">
+        <img src="./img/parcours.jpg" alt=""/>
+        <div class="card-content">
+            <div id="card-holder">
+                <h2>Mon parcours</h2>
+                <p class="desc">Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum<br> Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum </p>
+                <a href="./e4/parcours.html"><button><i class="fas fa-arrow-right" style="color: #ffffff;"></i>  Voir mon parcours</button></a>
             </div>
         </div>
-        <div class="card">
-            <img src="./img/competences.jpg" alt=""/>
-            <div class="card-content">
-            Mes compétences
+        </div>
+    </div>
+    <div class="card">
+        <div class="scroll-aid">
+        <img src="./img/entreprise.jpg" alt=""/>
+        <div class="card-content">
+            <div id="card-holder">
+                <h2>Idea Informatique</h2>
+                <br>
+                <p class="desc">
+                    Durant mes 2 années d'apprentissage, j'ai eu l'honneur<br>
+                    d'    
+                </p>
+                <button><i class="fas fa-arrow-right" style="color: #ffffff;"></i>  Voir Idea Informatique</button>
             </div>
         </div>
-        <div class="card">
-            <img src="./img/projets.jpg" alt=""/>
-            <div class="card-content">
-            Mes projets
+        </div>
+    </div>
+    <div class="card">
+        <div class="scroll-aid">
+        <img src="./img/competences.jpg" alt=""/>
+        <div class="card-content">
+            <div id="card-holder">
+                <h2>Mes compétences</h2>
+                <button><i class="fas fa-arrow-right" style="color: #ffffff;"></i>  Voir mes compétences</button>
             </div>
+        </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="scroll-aid">
+        <img src="./img/projets.jpg" alt=""/>
+        <div class="card-content">
+            <div id="card-holder">
+                <h2>Mes projets</h2>
+                <button><i class="fas fa-arrow-right" style="color: #ffffff;"></i>  Voir mes projets</button>
+            </div>
+        </div>
         </div>
     </div>
     <div class="footer">Footer</div>
     <script>
         const letters = "abcdefghijklmnopqrstuvwxyz";
-        const sentences = ["apprenti en informatique", "développeur en herbe", "informaticien enthousiaste", ]
+        const sentences = [
+            "Aspirant développeur de logiciels.",
+            "Spécialiste en informatique en devenir.",
+            "Informaticien enthousiaste.",
+            "Codeur passionné.",
+            "Programmeur ambitieux.",
+            "Étudiant en informatique dévoué."
+            ]
 
         let interval = null;
 
         let name = document.querySelector("#link");
 
-        //let remember = 0;
+        let remember = -1;
 
         function fctText() {
 
@@ -108,10 +234,20 @@
 
           clearInterval(interval);
           let rnd = Math.floor(Math.random() * sentences.length);
-          //while (remember === rnd) {
-        //    let rnd = Math.floor(Math.random() * sentences.length);
-          //}
-          //remember = rnd;
+          if (remember != -1) {
+            while (remember === rnd) {
+                rnd = Math.floor(Math.random() * sentences.length);
+            }
+          }
+          remember = rnd;
+
+          name.innerText = "";
+          let nbr;
+          for (let i = 0; i<sentences[rnd].length; i++) {
+            nbr = Math.floor(Math.random() * 26);
+            name.innerText += letters[nbr];
+          }
+
           console.log(sentences);
           console.log(rnd);
           console.log(sentences[rnd]);
@@ -133,11 +269,12 @@
               clearInterval(interval);
             }
 
-            iteration += 1 / 3;
+            iteration += 1 / 2;
           }, 30);
         }
 
-        setInterval(fctText, 7000);
+        setInterval(fctText, 10000);
+        fctText();
     </script>
 </body>
 </html>
