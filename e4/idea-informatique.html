@@ -5,16 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Mon parcours</title>
+    <title>Idea Informatique</title>
     <meta http-equiv='cache-control' content='no-cache'> 
     <meta http-equiv='expires' content='0'> 
     <meta http-equiv='pragma' content='no-cache'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet"> 
     <style>
         body {
             margin: 0;
             padding: 0;
             border: none;
-            background-image: url('../img/arraybg.jpg');
+            background-color: #191919;
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            color: white;
+            font-family: 'Raleway', sans-serif, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+            font-size: 36px;
+            overflow: hidden;
         }
         .horizontal-scroll-wrapper {
             overflow-y: hidden;
@@ -22,7 +31,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 800vw;
+            width: 200vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -65,6 +74,33 @@
             font-size: 72px;
             transition: font-size 1s;
         }
+        #title1 {
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #idealogo {
+            position: absolute;
+            top: 30%;
+            left: 25vw;
+            z-index: 1;
+            background-color: white;
+            width: 50vw;
+            height: auto;
+        }
+        #cuisine {
+            position: absolute;
+            top: 0;
+            left: 100vw;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -72,31 +108,15 @@
     <button id="next" onclick="next()"><i class="fas fa-angle-right" style="color: #ffffff;"></i></button>
     <div class="horizontal-scroll-wrapper">
         <div>
-            item1    
+            <h1 id="title1">Idea Informatique</h1>
+            <img src="../img/idealogo.webp" id="idealogo"/>
         </div>
         <div>
-            item 2
-        </div>
-        <div>
-            item 3
-        </div>
-        <div>
-            item 4
-        </div>
-        <div>
-            item 5
-        </div>
-        <div>
-            item 6
-        </div>
-        <div>
-            item 7
-        </div>
-        <div>
-            item 8
+            <img src="../img/cuisine.webp" id="cuisine"/>
         </div>
     </div>
     <script>
+        /* SCROLLING */
         const scrollContainer = document.querySelector(".horizontal-scroll-wrapper");
         const ref = document.getElementById("ref");
         let vw = window.innerWidth;
@@ -129,9 +149,6 @@
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalP = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos - interScrollDist, 0);
                 currentPos -= interScrollDist;
                 if (starterPos >= currentPos + vw) {
@@ -146,16 +163,13 @@
 
         function next() {
             if (intervalP || intervalN) return; // return if we are in a sliding animation
-            if (currentPos >= vw * 7) return; // return if we are at the end already
+            if (currentPos >= vw * 1) return; // return if we are at the end already
             starterPos = currentPos;
             let time = 80; // time for the whole slide, in ms
             let nbr = 10; // number of inter-scrolls
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalN = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos + interScrollDist, 0);
                 currentPos += interScrollDist;
                 if (starterPos + vw <= currentPos) {
@@ -167,6 +181,14 @@
                 }
             }, interScrollTime);
         }
+
+        /* CENTERING */
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let title1 = document.querySelector('#title1');
+            const title1Width = title1.offsetWidth;
+            title1.style.marginLeft = `-${title1Width / 2}px`;
+        }
+        , 70);
     </script>
 </body>
 </html>

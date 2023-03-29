@@ -9,12 +9,21 @@
     <meta http-equiv='cache-control' content='no-cache'> 
     <meta http-equiv='expires' content='0'> 
     <meta http-equiv='pragma' content='no-cache'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet"> 
     <style>
         body {
             margin: 0;
             padding: 0;
             border: none;
-            background-image: url('../img/arraybg.jpg');
+            background-color: #191919;
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            color: white;
+            font-family: 'Raleway', sans-serif, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+            font-size: 36px;
+            overflow: hidden;
         }
         .horizontal-scroll-wrapper {
             overflow-y: hidden;
@@ -22,7 +31,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 800vw;
+            width: 300vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -65,6 +74,101 @@
             font-size: 72px;
             transition: font-size 1s;
         }
+        #title1 {
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #subtitle1 {
+            position: absolute;
+            top: 12%;
+            left: 50%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #simoneweil {
+            position: absolute;
+            top: 30%;
+            left: 25vw;
+            z-index: 1;
+            background-color: white;
+            width: 50vw;
+            height: auto;
+        }
+        #title2 {
+            position: absolute;
+            top: 0%;
+            left: 150%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #subtitle2 {
+            position: absolute;
+            top: 12%;
+            left: 150%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #blaisepascal {
+            position: absolute;
+            top: 30%;
+            left: 125vw;
+            z-index: 1;
+            background-color: white;
+            width: 50vw;
+            height: auto;
+        }
+        #title3 {
+            position: absolute;
+            top: 0%;
+            left: 250%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #subtitle3 {
+            position: absolute;
+            top: 12%;
+            left: 250%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #lachartreuse {
+            position: absolute;
+            top: 30%;
+            left: 225vw;
+            z-index: 1;
+            background-color: white;
+            width: 50vw;
+            height: auto;
+        }
+        #cuisine {
+            position: absolute;
+            top: 0;
+            left: 100vw;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -72,31 +176,23 @@
     <button id="next" onclick="next()"><i class="fas fa-angle-right" style="color: #ffffff;"></i></button>
     <div class="horizontal-scroll-wrapper">
         <div>
-            item1    
+            <h1 id="title1">Lycée</h1>
+            <h2 id="subtitle1">(2015-2018)</h2>
+            <img src="../img/simoneweil.jpg" id="simoneweil"/>
         </div>
         <div>
-            item 2
+            <h1 id="title2">CPGE</h1>
+            <h2 id="subtitle2">(2018-2021)</h2>
+            <img src="../img/blaisepascal.jpg" id="blaisepascal"/>
         </div>
         <div>
-            item 3
-        </div>
-        <div>
-            item 4
-        </div>
-        <div>
-            item 5
-        </div>
-        <div>
-            item 6
-        </div>
-        <div>
-            item 7
-        </div>
-        <div>
-            item 8
+            <h1 id="title3">BTS SIO</h1>
+            <h2 id="subtitle3">(2021-2023)</h2>
+            <img src="../img/lachartreuse.jpg" id="lachartreuse"/>
         </div>
     </div>
     <script>
+        /* SCROLLING */
         const scrollContainer = document.querySelector(".horizontal-scroll-wrapper");
         const ref = document.getElementById("ref");
         let vw = window.innerWidth;
@@ -129,9 +225,6 @@
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalP = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos - interScrollDist, 0);
                 currentPos -= interScrollDist;
                 if (starterPos >= currentPos + vw) {
@@ -146,16 +239,13 @@
 
         function next() {
             if (intervalP || intervalN) return; // return if we are in a sliding animation
-            if (currentPos >= vw * 7) return; // return if we are at the end already
+            if (currentPos >= vw * 2) return; // return if we are at the end already
             starterPos = currentPos;
             let time = 80; // time for the whole slide, in ms
             let nbr = 10; // number of inter-scrolls
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalN = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos + interScrollDist, 0);
                 currentPos += interScrollDist;
                 if (starterPos + vw <= currentPos) {
@@ -167,6 +257,44 @@
                 }
             }, interScrollTime);
         }
+
+        /* CENTERING */
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let title1 = document.querySelector('#title1');
+            const title1Width = title1.offsetWidth;
+            title1.style.marginLeft = `-${title1Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let subtitle1 = document.querySelector('#subtitle1');
+            const subtitle1Width = subtitle1.offsetWidth;
+            subtitle1.style.marginLeft = `-${subtitle1Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let title2 = document.querySelector('#title2');
+            const title2Width = title2.offsetWidth;
+            title2.style.marginLeft = `-${title2Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let subtitle2 = document.querySelector('#subtitle2');
+            const subtitle2Width = subtitle2.offsetWidth;
+            subtitle2.style.marginLeft = `-${subtitle2Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let title3 = document.querySelector('#title3');
+            const title3Width = title3.offsetWidth;
+            title3.style.marginLeft = `-${title3Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let subtitle3 = document.querySelector('#subtitle3');
+            const subtitle3Width = subtitle3.offsetWidth;
+            subtitle3.style.marginLeft = `-${subtitle3Width / 2}px`;
+        }
+        , 70);
     </script>
 </body>
 </html>

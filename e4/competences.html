@@ -11,18 +11,19 @@
     <meta http-equiv='pragma' content='no-cache'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet"> 
     <style>
         body {
             margin: 0;
             padding: 0;
             border: none;
-            background-image: url('../img/gradientbg.jpg');
+            background-color: #191919;
             background-repeat: repeat-x;
             background-size: auto 100%;
             color: white;
-            font-family: 'Edu NSW ACT Foundation', "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
+            font-family: 'Raleway', sans-serif, "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
             font-size: 36px;
+            overflow: hidden;
         }
         .horizontal-scroll-wrapper {
             overflow-y: hidden;
@@ -30,7 +31,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 800vw;
+            width: 700vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -118,7 +119,8 @@
             top: 50%;
             left: 65%;
             z-index: 1;
-        }#title2 {
+        }
+        #title2 {
             position: absolute;
             top: 0%;
             left: 150%;
@@ -130,40 +132,32 @@
         }
         #nodejs {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 145%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #wamp {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 128%;
             z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
         #php {
             position: absolute;
-            top: 30%;
+            top: 55%;
             left: 161%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
-        #exemplenodejs {
-            position: absolute;
-            top: 50%;
-            left: 140%;
-            z-index: 1;
-        }
-        #exemplewamp {
-            position: absolute;
-            top: 50%;
-            left: 115%;
-            z-index: 1;
-        }
-        #exemplephp {
-            position: absolute;
-            top: 50%;
-            left: 165%;
-            z-index: 1;
-        }#title3 {
+        #title3 {
             position: absolute;
             top: 0%;
             left: 250%;
@@ -175,40 +169,20 @@
         }
         #express {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 245%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #symfony {
             position: absolute;
-            top: 30%;
-            left: 228%;
+            top: 60%;
+            left: 245%;
             z-index: 1;
         }
-        #bootstrap {
-            position: absolute;
-            top: 30%;
-            left: 261%;
-            z-index: 1;
-        }
-        #exempleexpress {
-            position: absolute;
-            top: 50%;
-            left: 240%;
-            z-index: 1;
-        }
-        #exemplesymfony {
-            position: absolute;
-            top: 50%;
-            left: 215%;
-            z-index: 1;
-        }
-        #exemplebootstrap {
-            position: absolute;
-            top: 50%;
-            left: 265%;
-            z-index: 1;
-        }#title4 {
+        #title4 {
             position: absolute;
             top: 0%;
             left: 350%;
@@ -220,40 +194,32 @@
         }
         #sql {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 345%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #dynamodb {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 328%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #mongodb {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 361%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
-        #exemplesql {
-            position: absolute;
-            top: 50%;
-            left: 340%;
-            z-index: 1;
-        }
-        #exempledynamodb {
-            position: absolute;
-            top: 50%;
-            left: 315%;
-            z-index: 1;
-        }
-        #exemplemongodb {
-            position: absolute;
-            top: 50%;
-            left: 365%;
-            z-index: 1;
-        }#title5 {
+        #title5 {
             position: absolute;
             top: 0%;
             left: 450%;
@@ -265,40 +231,32 @@
         }
         #csharp {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 445%;
             z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
         #delphi {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 428%;
             z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
         #kotlin {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 461%;
             z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
-        #exemplecsharp {
-            position: absolute;
-            top: 50%;
-            left: 440%;
-            z-index: 1;
-        }
-        #exempledelphi {
-            position: absolute;
-            top: 50%;
-            left: 415%;
-            z-index: 1;
-        }
-        #exemplekotlin {
-            position: absolute;
-            top: 50%;
-            left: 465%;
-            z-index: 1;
-        }#title6 {
+        #title6 {
             position: absolute;
             top: 0%;
             left: 550%;
@@ -310,39 +268,67 @@
         }
         #opengl {
             position: absolute;
-            top: 20%;
+            top: 30%;
             left: 545%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #webgl {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 528%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
         #glsl {
             position: absolute;
-            top: 30%;
+            top: 50%;
             left: 561%;
             z-index: 1;
+            width: 240px;
+            height: auto;
+            margin-left: -60px;
         }
-        #exempleopengl {
+        #title7 {
+            position: absolute;
+            top: 0%;
+            left: 650%;
+            margin-left: -50px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #docker {
+            position: absolute;
+            top: 30%;
+            left: 645%;
+            z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
+        }
+        #github {
             position: absolute;
             top: 50%;
-            left: 540%;
+            left: 628%;
             z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
-        #exemplewebgl {
+        #sourcetree {
             position: absolute;
             top: 50%;
-            left: 515%;
+            left: 661%;
             z-index: 1;
-        }
-        #exempleglsl {
-            position: absolute;
-            top: 50%;
-            left: 565%;
-            z-index: 1;
+            width: 180px;
+            height: auto;
+            margin-left: -60px;
         }
     </style>
 </head>
@@ -351,7 +337,7 @@
     <button id="next" onclick="next()"><i class="fas fa-angle-right" style="color: #ffffff;"></i></button>
     <div class="horizontal-scroll-wrapper">
         <div>
-            <h1 id="title1">HTML, CSS et Javascript</h1>
+            <h1 id="title1">Frontend</h1>
             <img src="../img/html.png" id="html"/>
             <img src="../img/css.png" id="css"/>
             <img src="../img/js.png" id="js"/>
@@ -360,49 +346,39 @@
             <img src="../img/exemplejs.png" id="exemplejs"/>
         </div>
         <div>
-            <h1 id="title2">Wamp, NodeJS, PHP</h1>
+            <h1 id="title2">Backend</h1>
             <img src="../img/wamp.png" id="wamp"/>
             <img src="../img/nodejs.png" id="nodejs"/>
             <img src="../img/php.png" id="php"/>
-            <img src="../img/exemplewamp.png" id="exemplewamp"/>
-            <img src="../img/exemplenodejs.png" id="exemplenodejs"/>
-            <img src="../img/exemplephp.png" id="exemplephp"/>
         </div>
         <div>
-            <h1 id="title3">Express, Symfony, Bootstrap</h1>
+            <h1 id="title3">Frameworks</h1>
             <img src="../img/express.png" id="express"/>
             <img src="../img/symfony.png" id="symfony"/>
-            <img src="../img/bootstrap.png" id="bootstrap"/>
-            <img src="../img/exempleexpress.png" id="exempleexpress"/>
-            <img src="../img/exemplesymfony.png" id="exemplesymfony"/>
-            <img src="../img/exemplebootstrap.png" id="exemplebootstrap"/>
         </div>
         <div>
-            <h1 id="title4">SQL, DynamoDB, MongoDB</h1>
+            <h1 id="title4">Bases de données</h1>
             <img src="../img/sql.png" id="sql"/>
             <img src="../img/dynamodb.png" id="dynamodb"/>
             <img src="../img/mongodb.png" id="mongodb"/>
-            <img src="../img/exemplesql.png" id="exemplesql"/>
-            <img src="../img/exempledynamodb.png" id="exempledynamodb"/>
-            <img src="../img/exemplemongodb.png" id="exemplemongodb"/>
         </div>
         <div>
-            <h1 id="title5">C#, Delphi, Kotlin</h1>
+            <h1 id="title5">Langages de programmation</h1>
             <img src="../img/csharp.png" id="csharp"/>
             <img src="../img/delphi.png" id="delphi"/>
             <img src="../img/kotlin.png" id="kotlin"/>
-            <img src="../img/exemplecsharp.png" id="exemplecsharp"/>
-            <img src="../img/exempledelphi.png" id="exempledelphi"/>
-            <img src="../img/exemplekotlin.png" id="exemplekotlin"/>
         </div>
         <div>
-            <h1 id="title6">OpenGL, WebGL, GLSL</h1>
+            <h1 id="title6">Moteur de rendu 3D</h1>
             <img src="../img/opengl.png" id="opengl"/>
             <img src="../img/webgl.png" id="webgl"/>
             <img src="../img/glsl.png" id="glsl"/>
-            <img src="../img/exempleopengl.png" id="exempleopengl"/>
-            <img src="../img/exemplewebgl.png" id="exemplewebgl"/>
-            <img src="../img/exempleglsl.png" id="exempleglsl"/>
+        </div>
+        <div>
+            <h1 id="title7">Développement</h1>
+            <img src="../img/docker.png" id="docker"/>
+            <img src="../img/github.png" id="github"/>
+            <img src="../img/sourcetree.png" id="sourcetree"/>
         </div>
     </div>
     <script>
@@ -453,7 +429,7 @@
 
         function next() {
             if (intervalP || intervalN) return; // return if we are in a sliding animation
-            if (currentPos >= vw * 5) return; // return if we are at the end already
+            if (currentPos >= vw * 6) return; // return if we are at the end already
             starterPos = currentPos;
             let time = 80; // time for the whole slide, in ms
             let nbr = 10; // number of inter-scrolls
@@ -507,6 +483,12 @@
             let title6 = document.querySelector('#title6');
             const title6Width = title6.offsetWidth;
             title6.style.marginLeft = `-${title6Width / 2}px`;
+        }
+        , 70);
+        setTimeout(() => { // timeout pour laisser à la font le temps de charger
+            let title7 = document.querySelector('#title7');
+            const title7Width = title7.offsetWidth;
+            title7.style.marginLeft = `-${title7Width / 2}px`;
         }
         , 70);
     </script>
