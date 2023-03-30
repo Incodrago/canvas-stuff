@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind waker Link</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+    <script src="./OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+    <script>
+        var pupilVertexShader = `
+        varying vec2 vUv;
+
+        #ifdef BONE_TEXTURE
+            uniform sampler2D boneTexture;
+            uniform int boneTextureWidth;
+            uniform int boneTextureHeight;
+
+            mat4 getBoneMatrix( const in float i ) {
+                float j = i * 4.0;
+                float x = mod( j, float( boneTextureWidth ) );
+                float y = floor( j / float( boneTextureWidth ) );
+                float dx = 1.0 / float( boneTextureWidth );
+                float dy = 1.0 / float( boneTextureHeight );
+                y = dy * ( y + 0.5 );
+                vec4 v1 = texture2D(boneTexture, vec2( dx * ( x + 0.5 ), y ));
+                vec4 v2 = texture2D(boneTexture, vec2( dx * ( x + 1.5 ), y ));
+                vec4 v3 = texture2D(boneTexture, vec2( dx * ( x + 2.5 ), y ));
+                vec4 v4 = texture2D(boneTexture, vec2( dx * ( x + 3.5 ), y ));
+                mat4 bone = mat4( v1, v2, v3, v4 );
+                return bone;
+            }
+        #else
+            uniform mat4 boneMatrices[MAX_BONES];
+
+            mat4 getBoneMatrix( const in float i ) {
+                mat4 bone = boneMatrices[ int(i) ];
+                return bone;
+            }
+        #endif
+
+        void main() {
+            vUv = uv;
+
+            vec3 pos = position;
+
+            mat4 boneMatX = getBoneMatrix(skinIndex.x);
+            mat4 boneMatY = getBoneMatrix(skinIndex.y);
+            mat4 boneMatZ = getBoneMatrix(skinIndex.z);
+            mat4 boneMatW = getBoneMatrix(skinIndex.w);
+            vec4 skinVertex = vec4(pos, 1.0);
+            vec4 skinned = vec4(0.0);
+            skinned += boneMatX * skinVertex * skinWeight.x;
+            skinned += boneMatY * skinVertex * skinWeight.y;
+            skinned += boneMatZ * skinVertex * skinWeight.z;
+            skinned += boneMatW * skinVertex * skinWeight.w;
+
+            pos = skinned.xyz;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+        `;
+
+        var pupilFragmentShader = `
+        varying vec2 vUv;
+
+        uniform sampler2D uMap;
+        uniform sampler2D uMask;
+        uniform float uScale;
+        uniform vec2 uOffset;
+        uniform float uFlip;
+
+        void main() {
+            vec4 mask = texture2D(uMask, vUv);
+            vec2 uv = vUv;
+            uv += uOffset * vec2(uFlip, 1.0);
+            uv -= vec2(0.5);
+            uv /= uScale;
+            uv += vec2(0.5);
+            gl_FragColor = texture2D(uMap, uv);
+            gl_FragColor.a *= mask.r * 2.0;
+        }
+        `;
+
+        var bodyVertexShader = `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+
+        uniform mat4 bindMatrix;
+        uniform mat4 bindMatrixInverse;
+
+        #ifdef BONE_TEXTURE
+            uniform sampler2D boneTexture;
+            uniform int boneTextureWidth;
+            uniform int boneTextureHeight;
+
+            mat4 getBoneMatrix( const in float i ) {
+                float j = i * 4.0;
+                float x = mod( j, float( boneTextureWidth ) );
+                float y = floor( j / float( boneTextureWidth ) );
+                float dx = 1.0 / float( boneTextureWidth );
+                float dy = 1.0 / float( boneTextureHeight );
+                y = dy * ( y + 0.5 );
+                vec4 v1 = texture2D(boneTexture, vec2( dx * ( x + 0.5 ), y ));
+                vec4 v2 = texture2D(boneTexture, vec2( dx * ( x + 1.5 ), y ));
+                vec4 v3 = texture2D(boneTexture, vec2( dx * ( x + 2.5 ), y ));
+                vec4 v4 = texture2D(boneTexture, vec2( dx * ( x + 3.5 ), y ));
+                mat4 bone = mat4( v1, v2, v3, v4 );
+                return bone;
+            }
+        #else
+            uniform mat4 boneMatrices[MAX_BONES];
+
+            mat4 getBoneMatrix( const in float i ) {
+                mat4 bone = boneMatrices[ int(i) ];
+                return bone;
+            }
+        #endif
+
+        void main() {
+            vUv = uv;
+            vNormal = normalMatrix * normal;
+
+            vec3 pos = position;
+
+            mat4 boneMatX = getBoneMatrix(skinIndex.x);
+            mat4 boneMatY = getBoneMatrix(skinIndex.y);
+            mat4 boneMatZ = getBoneMatrix(skinIndex.z);
+            mat4 boneMatW = getBoneMatrix(skinIndex.w);
+            vec4 skinVertex = vec4(pos, 1.0);
+            vec4 skinned = vec4(0.0);
+            skinned += boneMatX * skinVertex * skinWeight.x;
+            skinned += boneMatY * skinVertex * skinWeight.y;
+            skinned += boneMatZ * skinVertex * skinWeight.z;
+            skinned += boneMatW * skinVertex * skinWeight.w;
+
+            pos = skinned.xyz;
+
+            mat4 skinMatrix = mat4( 0.0 );
+            skinMatrix += skinWeight.x * boneMatX;
+            skinMatrix += skinWeight.y * boneMatY;
+            skinMatrix += skinWeight.z * boneMatZ;
+            skinMatrix += skinWeight.w * boneMatW;
+            skinMatrix  = bindMatrixInverse * skinMatrix * bindMatrix;
+
+            vNormal = vec4( skinMatrix * vec4( vNormal, 0.0 ) ).xyz;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+        `;
+            
+        var bodyFragmentShader = `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+
+        uniform sampler2D uMap;
+
+        void main() {
+            gl_FragColor = texture2D(uMap, vUv);
+            float shadow = dot(vNormal, normalize(vec3(1.0, 1.0, 1.0)));
+            gl_FragColor *= smoothstep(0.0, 0.1, shadow) * 0.4 + 0.6;
+        }
+        `;
+
+        (function() {
+            var _renderer, _scene, _camera, _controls;
+            var _geometry, _shader, _mesh;
+            var _json = {};
+            
+            window.onload = init;
+            
+            function init() {
+                initWorld();
+                initScene();
+            }
+
+            //=====// Utils //========================================//     
+
+            function random(min, max, precision) {
+                var p = Math.pow(10, precision);
+                return Math.round((min + Math.random() * (max - min)) * p) / p;
+            }
+
+            function loadJSON(url) {
+                let p = new Promise(resolve => {    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', url, true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    xhr.send();
+                    xhr.addEventListener('load', () => {
+                        let data = JSON.parse(xhr.response);
+                        _json[url] = data;
+                        resolve(data);
+                    });
+                });
+                return p;
+            }
+
+            function loadGeometry(name) {
+                var data = _json[name];
+                var geometry = new THREE.BufferGeometry();
+                geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(data.position), 3));
+                geometry.addAttribute('normal', new THREE.BufferAttribute(new Float32Array(data.normal), 3));
+                geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(data.uv), 2));
+                geometry.addAttribute('skinIndex', new THREE.BufferAttribute(new Float32Array(data.skinIndices), 4));
+                geometry.addAttribute('skinWeight', new THREE.BufferAttribute(new Float32Array(data.skinWeights), 4));
+                geometry.bones = data.bones;
+                return geometry;
+            }
+            
+            //=====// World //========================================//     
+                
+            function initWorld() {
+                _renderer = new THREE.WebGLRenderer();
+                _renderer.setPixelRatio(2);
+                _renderer.setSize(window.innerWidth, window.innerHeight);
+                _renderer.setClearColor('#1b1b1b');
+                document.body.appendChild(_renderer.domElement);
+                
+                _scene = new THREE.Scene();
+                
+                _camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);        
+                _camera.position.set(0, 80, 240);
+                _camera.target = new THREE.Vector3(0, 60, 0);
+                _camera.lookAt(_camera.target);
+
+                _controls = new THREE.OrbitControls(_camera, _renderer.domElement);
+                _controls.target = _camera.target;
+                _controls.enableDamping = true;
+                _controls.dampingFactor = 0.1;
+                _controls.rotateSpeed = 0.1;
+                
+                window.addEventListener('resize', resize, false);
+                resize();
+                requestAnimationFrame(render);
+            }
+
+            function resize() {
+                _renderer.setSize(window.innerWidth, window.innerHeight);
+                _camera.aspect = window.innerWidth / window.innerHeight;
+                _camera.updateProjectionMatrix();
+            }
+
+            function render() {
+                requestAnimationFrame(render);
+                if (_controls) _controls.update();
+                _renderer.render(_scene, _camera);
+            }
+
+            //=====// Scene //========================================//     
+
+            function initScene() {
+                var _body, _mouth, _browL, _browR, _eyeL, _eyeR, _pupilL, _pupilR;
+                var _config;
+
+                (function () {
+                    preload(() => {
+                        initLink();
+                        initGui();                
+                    });
+                })();
+
+                function preload(callback) {
+                    Promise.all([
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/body.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/mouth.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/anim_happy_idle.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/sheath.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/brow_l.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/brow_r.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/pupil_l.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/pupil_r.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/eye_l.json'),
+                        loadJSON('https://cinemont.com/tutorials/zelda/link/eye_r.json'),
+                    ]).then(callback)
+                }
+
+                function initLink() {
+                    _body = new LinkBody();
+                    _mouth = new LinkMouth(_body.skeleton);
+                    _browL = new LinkBrow('brow_l', _body.skeleton);
+                    _browR = new LinkBrow('brow_r', _body.skeleton);
+                    _eyeL = new LinkEye('eye_l', _body.skeleton);
+                    _eyeR = new LinkEye('eye_r', _body.skeleton);
+                    _pupilL = new LinkPupil('pupil_l', _body.skeleton);
+                    _pupilR = new LinkPupil('pupil_r', _body.skeleton);
+                }
+
+                function initGui() {
+                    _config = {
+                        mouth: 'mouth1',
+                        left_eyebrow: 'eyebrow1',
+                        right_eyebrow: 'eyebrow1',
+                        left_eye: 'eye2',
+                        right_eye: 'eye2',
+                        pupil_scale: 1,
+                        pupil_x: 0,
+                        pupil_y: 0,
+                    };
+                    var gui = new dat.gui.GUI();
+                    gui.add(_config, 'mouth', ['mouth1', 'mouth2', 'mouth3', 'mouth4', 'mouth5', 'mouth6', 'mouth7', 'mouth8', 'mouth9']).onChange(value => {
+                        _mouth.update(value);
+                    });
+                    gui.add(_config, 'left_eyebrow', ['eyebrow1', 'eyebrow2', 'eyebrow3', 'eyebrow4', 'eyebrow5', 'eyebrow6']).onChange(value => {
+                        _browL.update(value);
+                    });
+                    gui.add(_config, 'right_eyebrow', ['eyebrow1', 'eyebrow2', 'eyebrow3', 'eyebrow4', 'eyebrow5', 'eyebrow6']).onChange(value => {
+                        _browR.update(value);
+                    });
+                    gui.add(_config, 'left_eye', ['eye1', 'eye2', 'eye3', 'eye4', 'eye5', 'eye6', 'eye7']).onChange(value => {
+                        _eyeL.update(value);
+                        _pupilL.updateEye(value);
+                    });
+                    gui.add(_config, 'right_eye', ['eye1', 'eye2', 'eye3', 'eye4', 'eye5', 'eye6', 'eye7']).onChange(value => {
+                        _eyeR.update(value);
+                        _pupilR.updateEye(value);
+                    });
+                    gui.add(_config, 'pupil_scale').min(0.5).max(1.1).step(0.05).onChange(value => {
+                        _pupilL.updateScale(value);
+                        _pupilR.updateScale(value);
+                    });
+                    gui.add(_config, 'pupil_x').min(-0.3).max(0.3).step(0.01).onChange(value => {
+                        _pupilL.updateOffsetX(value);
+                        _pupilR.updateOffsetX(value);
+                    });
+                    gui.add(_config, 'pupil_y').min(-0.3).max(0.3).step(0.01).onChange(value => {
+                        _pupilL.updateOffsetY(-value);
+                        _pupilR.updateOffsetY(-value);
+                    });
+                }
+            }
+
+            //=====// Body //========================================//     
+
+            function LinkBody() {
+                var _this = this;
+                var _geometry, _shader, _mesh, _mixer;
+
+                //*** Constructor
+                (function () {
+                    initGeometry();
+                    initShader();
+                    initMesh();
+                    initAnimation();
+                    requestAnimationFrame(loop);
+                })();
+
+                function initGeometry() {
+                    _geometry = loadGeometry('https://cinemont.com/tutorials/zelda/link/body.json');
+                }
+
+                function initShader() {
+                    var uniforms = {
+                        uMap: {type: 't', value: null},
+                    };
+
+                    _shader = new THREE.ShaderMaterial({
+                        uniforms: uniforms,
+                        vertexShader: bodyVertexShader,
+                        fragmentShader: bodyFragmentShader,
+                        skinning: true,
+                    });
+
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/body.png', t => _shader.uniforms.uMap.value = t);
+                }
+
+                function initMesh() {
+                    _mesh = new THREE.SkinnedMesh(_geometry, _shader);
+                    _scene.add(_mesh);
+                    _this.skeleton = _mesh.skeleton;
+                }
+
+                function initAnimation() {
+                    _mixer = new THREE.AnimationMixer(_mesh);
+
+                    var animation = _json['https://cinemont.com/tutorials/zelda/link/anim_happy_idle.json'].animation;
+                    var clip = THREE.AnimationClip.parseAnimation(animation, _geometry.bones);
+                    var action = _mixer.clipAction(clip);
+                    action.play();
+                }
+
+                function loop() {
+                    requestAnimationFrame(loop);
+                    if (_mixer) _mixer.update(0.2);
+                }
+            }
+
+            //=====// Mouth //========================================//     
+
+            function LinkMouth(_skeleton) {
+                var _this = this;
+                var _geometry, _shader, _mesh;
+
+                //*** Constructor
+                (function () {
+                    initGeometry();
+                    initShader();
+                    initMesh();
+                })();
+
+                function initGeometry() {
+                    _geometry = loadGeometry('https://cinemont.com/tutorials/zelda/link/mouth.json');
+                }
+
+                function initShader() {
+                    var uniforms = {
+                        uMap: {type: 't', value: null},
+                    };
+
+                    _shader = new THREE.ShaderMaterial({
+                        uniforms: uniforms,
+                        vertexShader: bodyVertexShader,
+                        fragmentShader: bodyFragmentShader,
+                        skinning: true,
+                    });
+
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/mouth1.png', t => _shader.uniforms.uMap.value = t);
+                }
+
+                function initMesh() {
+                    _mesh = new THREE.SkinnedMesh(_geometry, _shader);
+                    _mesh.skeleton = _skeleton;
+                    _scene.add(_mesh);
+                }
+
+                _this.update = function(value) {
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/' + value + '.png', t => _shader.uniforms.uMap.value = t);
+                };
+            }
+
+            //=====// Brow //========================================//     
+
+            function LinkBrow(_file, _skeleton) {
+                var _this = this;
+                var _geometry, _shader, _mesh;
+
+                //*** Constructor
+                (function () {
+                    initGeometry();
+                    initShader();
+                    initMesh();
+                })();
+
+                function initGeometry() {
+                    _geometry = loadGeometry('https://cinemont.com/tutorials/zelda/link/' + _file + '.json');
+                }
+
+                function initShader() {
+                    _shader = new THREE.MeshBasicMaterial({
+                        map: null,
+                        skinning: true,
+                        // transparent: true,
+                        depthTest: false,
+                    });
+
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/eyebrow1.png', t => {
+                        _shader.map = t
+                        _shader.needsUpdate = true;
+                    });
+                }
+
+                function initMesh() {
+                    _mesh = new THREE.SkinnedMesh(_geometry, _shader);
+                    _mesh.skeleton = _skeleton;
+                    _scene.add(_mesh);
+                }
+
+                _this.update = function(value) {
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/' + value + '.png', t => {
+                        _shader.map = t
+                        _shader.needsUpdate = true;
+                    });
+                };
+            }
+
+            //=====// Eye //========================================//     
+
+            function LinkEye(_file, _skeleton) {
+                var _this = this;
+                var _geometry, _shader, _mesh;
+
+                //*** Constructor
+                (function () {
+                    initGeometry();
+                    initShader();
+                    initMesh();
+                })();
+
+                function initGeometry() {
+                    _geometry = loadGeometry('https://cinemont.com/tutorials/zelda/link/' + _file + '.json');
+                }
+
+                function initShader() {
+                    _shader = new THREE.MeshBasicMaterial({
+                        map: null,
+                        skinning: true,
+                        transparent: true,
+                        depthTest: false,
+                    });
+
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/eye2.png', t => {
+                        _shader.map = t
+                        _shader.needsUpdate = true;
+                    });
+                }
+
+                function initMesh() {
+                    _mesh = new THREE.SkinnedMesh(_geometry, _shader);
+                    _mesh.skeleton = _skeleton;
+                    _scene.add(_mesh);
+                }
+
+                _this.update = function(value) {
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/' + value + '.png', t => {
+                        _shader.map = t
+                        _shader.needsUpdate = true;
+                    });
+                };
+            }
+
+            //=====// Pupil //========================================//     
+
+            function LinkPupil(_file, _skeleton) {
+                var _this = this;
+                var _geometry, _shader, _mesh;
+
+                //*** Constructor
+                (function () {
+                    initGeometry();
+                    initShader();
+                    initMesh();
+                })();
+
+                function initGeometry() {
+                    _geometry = loadGeometry('https://cinemont.com/tutorials/zelda/link/' + _file + '.json');
+                }
+
+                function initShader() {
+                    var uniforms = {
+                        uMap: {type: 't', value: null},
+                        uMask: {type: 't', value: null},
+                        uScale: {type: 'f', value: 1},
+                        uOffset: {type: 'v2', value: new THREE.Vector2()},
+                        uFlip: {type: 'f', value: ~_file.indexOf('pupil_l') ? 1 : -1},
+                    };
+
+                    _shader = new THREE.ShaderMaterial({
+                        uniforms: uniforms,
+                        vertexShader: pupilVertexShader,
+                        fragmentShader: pupilFragmentShader,
+                        skinning: true,
+                        transparent: true,
+                        depthTest: false,
+                    });
+
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/pupil.png', t => _shader.uniforms.uMap.value = t);
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/eye2.png', t => _shader.uniforms.uMask.value = t);
+                }
+
+                function initMesh() {
+                    _mesh = new THREE.SkinnedMesh(_geometry, _shader);
+                    _mesh.skeleton = _skeleton;
+                    _scene.add(_mesh);
+                }
+
+                this.updateEye = function(value) {
+                    var textureLoader = new THREE.TextureLoader();
+                    textureLoader.load('https://cinemont.com/tutorials/zelda/link/' + value + '.png', t => _shader.uniforms.uMask.value = t);
+                };
+
+                this.updateScale = function(value) {
+                    _shader.uniforms.uScale.value = value;
+                };
+
+                this.updateOffsetX = function(value) {
+                    _shader.uniforms.uOffset.value.x = value;
+                };
+
+                this.updateOffsetY = function(value) {
+                    _shader.uniforms.uOffset.value.y = value;
+                };
+            }
+
+        })();
+    </script>
+</body>
+</html>

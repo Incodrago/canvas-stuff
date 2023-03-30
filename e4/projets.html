@@ -22,7 +22,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 800vw;
+            width: 1100vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -47,6 +47,7 @@
             color: white;
             font-family: "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
             transition: font-size 1s;
+            z-index: 2;
         }
         #previous {
             position: fixed;
@@ -60,6 +61,7 @@
             color: white;
             font-family: "Helvetica Neue", Helvetica, arial, freesans, clean, sans-serif;
             transition: font-size 1s;
+            z-index: 2;
         }
         #next:hover, #previous:hover {
             font-size: 72px;
@@ -74,6 +76,200 @@
         button:hover {
             cursor: pointer;
         }
+        #cartes1 {
+            position: absolute;
+            top: 5%;
+            left: 10%;
+            z-index: 1;
+        }
+        #cartes2 {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            z-index: 1;
+            width: 40vw;
+        }
+        #audi1 {
+            position: absolute;
+            top: 2%;
+            left: 110%;
+            z-index: 1;
+            width: 80vw;
+        }
+        #audi2 {
+            position: absolute;
+            top: 40%;
+            left: 150%;
+            z-index: 1;
+            width: 40vw;
+        }
+        #linux1 {
+            position: absolute;
+            top: 5%;
+            left: 210%;
+            z-index: 1;
+            width: 80vw;
+        }
+        #linux2 {
+            position: absolute;
+            top: 40%;
+            left: 240%;
+            z-index: 1;
+            width: 45vw;
+        }
+        #symfony1 {
+            position: absolute;
+            top: 5%;
+            left: 310%;
+            z-index: 1;
+        }
+        #symfony2 {
+            position: absolute;
+            top: 15%;
+            left: 340%;
+            z-index: 1;
+            width: 50vw;
+        }
+        #troisd1 {
+            position: absolute;
+            top: 5%;
+            left: 415%;
+            z-index: 1;
+            width: 30vw;
+        }
+        #troisd2 {
+            position: absolute;
+            top: 5%;
+            left: 450%;
+            z-index: 1;
+            width: 35vw;
+        }
+        #troisd3 {
+            position: absolute;
+            top: 60%;
+            left: 415%;
+            z-index: 1;
+            width: 70vw;
+        }
+        #opengl1 {
+            position: absolute;
+            top: 5%;
+            left: 518%;
+            z-index: 1;
+            width: 30vw;
+        }
+        #opengl2 {
+            position: absolute;
+            top: 5%;
+            left: 553%;
+            z-index: 1;
+            width: 30vw;
+        }
+        #opengl3 {
+            position: absolute;
+            top: 60%;
+            left: 518%;
+            z-index: 1;
+            width: 30vw;
+        }
+        #opengl4 {
+            position: absolute;
+            top: 40%;
+            left: 553%;
+            z-index: 1;
+            width: 30vw;
+        }
+        #param1 {
+            position: absolute;
+            top: 5%;
+            left: 625%;
+            z-index: 1;
+            width: 50vw;
+        }
+        #param2 {
+            position: absolute;
+            top: 35%;
+            left: 610%;
+            z-index: 1;
+            width: 38vw;
+        }
+        #param3 {
+            position: absolute;
+            top: 35%;
+            left: 652%;
+            z-index: 1;
+            width: 38vw;
+        }
+        #site1 {
+            position: absolute;
+            top: 7%;
+            left: 715%;
+            z-index: 1;
+            width: 35vw;
+        }
+        #site2 {
+            position: absolute;
+            top: 57%;
+            left: 715%;
+            z-index: 1;
+            width: 35vw;
+        }
+        #site3 {
+            position: absolute;
+            top: 20%;
+            left: 762%;
+            z-index: 1;
+            width: 25vw;
+        }
+        #appelclients1 {
+            position: absolute;
+            top: 5%;
+            left: 810%;
+            z-index: 1;
+            width: 60vw;
+        }
+        #appelclients2 {
+            position: absolute;
+            top: 40%;
+            left: 850%;
+            z-index: 1;
+            width: 40vw;
+        }
+        #aws1 {
+            position: absolute;
+            top: 15%;
+            left: 910%;
+            z-index: 1;
+            width: 38vw;
+        }
+        #aws2 {
+            position: absolute;
+            top: 20%;
+            left: 950%;
+            z-index: 1;
+            width: 40vw;
+        }
+        #aws3 {
+            position: absolute;
+            top: 55%;
+            left: 910%;
+            z-index: 1;
+            width: 38vw;
+        }
+        #webgl1 {
+            position: absolute;
+            top: 32%;
+            left: 1010%;
+            z-index: 1;
+            width: 45vw;
+        }
+        #webgl2 {
+            position: absolute;
+            top: 10%;
+            left: 1060%;
+            z-index: 1;
+            width: 25vw;
+        }
     </style>
 </head>
 <body>
@@ -82,28 +278,54 @@
     <a href="../e4testing.html" id="retour"><i class="far fa-arrow-alt-circle-left" style="color: #ffffff;"></i></a>
     <div class="horizontal-scroll-wrapper">
         <div>
-            item1    
+            <img src="../img/cartes1.png" id="cartes1"/>
+            <img src="../img/cartes2.png" id="cartes2"/>
         </div>
         <div>
-            item 2
+            <img src="../img/audi1.png" id="audi1"/>
+            <img src="../img/audi2.png" id="audi2"/>
         </div>
         <div>
-            item 3
+            <img src="../img/linux1.png" id="linux1"/>
+            <img src="../img/linux2.png" id="linux2"/>
         </div>
         <div>
-            item 4
+            <img src="../img/symfony1.png" id="symfony1"/>
+            <img src="../img/symfony2.png" id="symfony2"/>
         </div>
         <div>
-            item 5
+            <img src="../img/3d1.png" id="troisd1"/>
+            <img src="../img/3d2.png" id="troisd2"/>
+            <img src="../img/3d3.png" id="troisd3"/>
         </div>
         <div>
-            item 6
+            <img src="../img/opengl1.png" id="opengl1"/>
+            <img src="../img/opengl2.png" id="opengl2"/>
+            <img src="../img/opengl3.png" id="opengl3"/>
+            <img src="../img/opengl4.png" id="opengl4"/>
         </div>
         <div>
-            item 7
+            <img src="../img/param1.png" id="param1"/>
+            <img src="../img/param2.png" id="param2"/>
+            <img src="../img/param3.png" id="param3"/>
         </div>
         <div>
-            item 8
+            <img src="../img/site1.png" id="site1"/>
+            <img src="../img/site2.png" id="site2"/>
+            <img src="../img/site3.png" id="site3"/>
+        </div>
+        <div>
+            <img src="../img/appelclients1.png" id="appelclients1"/>
+            <img src="../img/appelclients2.png" id="appelclients2"/>
+        </div>
+        <div>
+            <img src="../img/aws1.png" id="aws1"/>
+            <img src="../img/aws2.png" id="aws2"/>
+            <img src="../img/aws3.png" id="aws3"/>
+        </div>
+        <div>
+            <img src="../img/webgl1.png" id="webgl1"/>
+            <img src="../img/webgl2.png" id="webgl2"/>
         </div>
     </div>
     <script>
@@ -139,9 +361,6 @@
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalP = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos - interScrollDist, 0);
                 currentPos -= interScrollDist;
                 if (starterPos >= currentPos + vw) {
@@ -156,16 +375,13 @@
 
         function next() {
             if (intervalP || intervalN) return; // return if we are in a sliding animation
-            if (currentPos >= vw * 7) return; // return if we are at the end already
+            if (currentPos >= vw * 10) return; // return if we are at the end already
             starterPos = currentPos;
             let time = 80; // time for the whole slide, in ms
             let nbr = 10; // number of inter-scrolls
             let interScrollDist = vw/time;
             let interScrollTime = time/nbr;
             intervalN = setInterval(() => {
-                console.log("Starter: ", starterPos);
-                console.log("Current: ", currentPos);
-                console.log("VW: ", vw);
                 window.scrollTo(currentPos + interScrollDist, 0);
                 currentPos += interScrollDist;
                 if (starterPos + vw <= currentPos) {
