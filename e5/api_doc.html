@@ -576,6 +576,8 @@
 
         <h2>Projets</h2>
         <p class="undertitle">https://epreuve.idea43.net/api/projets</p>
+        <p class="undertitle">Paramètres d'URL: {id} doit être remplacé par l'id d'un projet.</p>
+
 
         <div class="centre GET">
             <span class="url">/</span> <span class="method">GET</span>
@@ -585,66 +587,112 @@
                 Query: <i>none</i>.
             </p>
             <p>
-                Token nécessaire: User.
+                Token nécessaire: Utilisateur.
             </p>
             <p>
-                Renvoie une liste de projets appartenant au user auquel appartient le token. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+                Renvoie une liste de projets appartenant à l'utilisateur auquel appartient le token.
             </p>
         </div>
         <div class="centre GET">
-            <span class="url">/{fileName}</span> <span class="method">GET</span>
+            <span class="url">/{id}</span> <span class="method">GET</span>
             <br>
             <hr>
             <p>
                 Query: <i>none</i>.
             </p>
             <p>
-                Token nécessaire: User.
+                Token nécessaire: Utilisateur.
             </p>
             <p>
-                Renvoie les informations sur le projet concerné avec une url pour télécharger le fichier du projet. Le user auquel appartient le token doit être propriétaire de ce projet.
+                Renvoie les informations sur le projet dont l'id correspond à {id}. L'utilisateur auquel appartient le token doit être propriétaire de ce projet.
                 <br>
-                L'url de téléchargement est valide pour 1 minute.
+                <i>{id}</i> doit correspondre à l'id d'un projet.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{id}/download</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Renvoie les informations sur le projet concerné avec une url pour télécharger le fichier du projet. L'utilisateur auquel appartient le token doit être propriétaire de ce projet.
                 <br>
-                <i>{fileName}</i> doit correspondre au nom du projet.
+                L'url de téléchargement est valide pour 1 minute. C'est le lien "signedRequest".
+                <br>
+                <i>{id}</i> doit correspondre à l'id d'un projet.
             </p>
         </div>
         <div class="centre POST">
-            <span class="url">/{fileName}</span> <span class="method">POST</span>
+            <span class="url">/</span> <span class="method">POST</span>
             <br>
             <hr>
             <p>
                 Query: <i>none</i>.
             </p>
             <p>
-                Token nécessaire: User.
+                Token nécessaire: Utilisateur.
             </p>
             <p>
                 Créé un projet avec les informations contenues dans le corps de la requête.
                 <br>
-                <i>{fileName}</i> correspond au nom du projet.
+                <br />
+                Champs obligatoires: <i>affaireId, name</i>.
+                <br />
+                <br />
+                Exemple de corps de requête: { "projet": { "affaireId": "id_de_une_Affaire", "name": "nomProjet" } }
+                <br />
                 <br>
-                Si le projet n'existe pas, il est créé. Si il existe, il est mis à jour avec les informations données.
+                Si le projet n'existe pas, il est créé. Il est automatique lié à l'entreprise de l'utilisateur.
                 <br>
-                Renvoie les données du projet créé ou mis à jour, avec une URL valide pour 1 minute pour upload le fichier sur AWS S3.
+                Renvoie les données du projet créé, avec une URL valide pour 1 minute pour upload le fichier du projet sur AWS S3 (pour upload sur s3: requête PUT vers l'url indiquée (signedRequest), avec comme corps de requête le fichier en binary).
             </p>
         </div>
-        <div class="centre DELETE">
-            <span class="url">/{fileName}</span> <span class="method">DELETE</span>
+        <div class="centre PUT">
+            <span class="url">/{id}</span> <span class="method">PUT</span>
             <br>
             <hr>
             <p>
                 Query: <i>none</i>.
             </p>
             <p>
-                Token nécessaire: User.
+                Token nécessaire: Utilisateur.
             </p>
             <p>
-                Supprime le projet dont le nom correspond à <i>{fileName}</i>.
+                Modifie le projet dont l'id correspond à <i>{id}</i>.
                 <br>
                 Le user auquel appartient le token doit être le propriétaire du projet.
+                <br />
+                <br />
+                Champs modifiables: <i>path</i>.
+                <br />
+                <br />
+                Exemple de corps de requête: { "projet": { "path": "newPath" } }
+                <br />
                 <br>
-                Renvoie un message de confirmation de suppression de l'objet.
+                Renvoie les informations modifiées du projet.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{id}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Supprime le projet dont l'id correspond à <i>{id}</i>.
+                <br>
+                L'utilisateur auquel appartient le token doit être le propriétaire du projet.
+                <br>
+                Renvoie un message de confirmation de suppression du projet.
             </p>
         </div>
 
