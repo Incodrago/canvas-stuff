@@ -5,5 +5,48 @@
 </head>
 <body>
     <h1>Documentation pour Visionneuse 3D OpenGL</h1>
+    <section>
+        <h2> Obtention du programme</h2>
+        Le programme et le code source sont installés sur l'ordinateur P35-10 à La Chartreuse.<br />
+        Dans le cas où il est impossible d'accès, vous pouvez télécharger le code source et l'application ici:<br />
+        <b><a href="https://mega.nz/file/T10iSJYJ#kYP6lH0ckyO03ms2Z30IbzSMn330B-Axmz7a750XzCo">Code source</a> <a href="https://mega.nz/file/Kx832TbA#7QJ3YxJf2kc6o-ZPPeWWyzWUWc9JXrGHZY4rjYbZWTs">Application</a></b><br />
+        <ul>
+            Remarques:
+            <li>Pour compiler le code source, il faut télécharger Visual Studio 2022. Il est téléchargeable ici <a href="https://visualstudio.microsoft.com/fr/vs/">https://visualstudio.microsoft.com/fr/vs/</a>.</li>
+            <li>Attention, pour que le programme fonctionne il faut que les "Visual Studio Redistributables" soient installés sur l'ordinateur! Elles sont téléchargeables ici: <a href="https://learn.microsoft.com/fr-fr/cpp/windows/latest-supported-vc-redist?view=msvc-170">https://learn.microsoft.com/fr-fr/cpp/windows/latest-supported-vc-redist?view=msvc-170</a>.</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Utilisation du programme</h2>
+        Le programme est un simple visionneur de fichiers 3D au format .obj. Des fichiers .obj sont fournis avec l'application pour essayer.<br />
+        <img src="opengl_pres.png" width="40%" />
+        <h3>Changer l'objet</h3>
+        À partir du dossier où se trouve l'executable, se diriger dans "/objets/". Il y a plusieurs objets. Choisir l'un d'eux, rentrer dans le dossier puis drag & drop le fichier .obj dans la fenêtre de l'application pour que l'application charge le nouvel objet.
+        <img src="opengl_dandd.png" width="40%" />
+        <h3>Utiliser l'interface utilisateur</h3>
+        L'interface utilisateur, nommée "Paramètres", est le rectangle resizable qui contient des options.<br />
+        <img src="opengl_imgui.png" width="40%" />
+        <ul>
+            Voici la liste des options et leur effet:
+            <li><b>Dessiner en wireframe:</b> Permet de dessiner l'objet en fil de fer</li>
+            <li><b>Taille de l'objet':</b> Permet, si besoin, de modifier la taille de l'objet (<b>[0;10]</b>)</li>
+            <li><b>Couleur du fond:</b> Permet de sélectionner la couleur de fond, à l'arrière de l'objet. <i>Note: plus cette couleur est claire, plus l'objet est éclairé.</i></li>
+            <li><i>Soleil (directionallight)</i></li>
+            <li><b>Lumière du soleil:</b> Active (ou non) la lumière provenant du "soleil" (lumière provenant d'une direction, semblable à l'effet du soleil sur terre)</li>
+            <li><b>Longitude soleil:</b> Slider permettant de changer la direction d'où provient cette lumière (longitude, en coordonnées sphériques) (<b>[-pi;pi]</b>)</li>
+            <li><b>Colatitude soleil:</b> Slider permettant de changer la direction d'où provient cette lumière (colatitude, en coordonnées sphériques) (<b>[-pi;pi]</b>)</li>
+            <li><i>Lampe (pointlight)</i></li>
+            <li><b>Lumière de la lampe:</b> Active (ou non) la lumière provenant de la "lampe" (simule un point lumineux)</li>
+            <li><b>Couleur de la lampe:</b> Permet de sélectionner la couleur de la lampe et de la lumière qu'elle emet</li>
+            <li><b>Rayon lampe:</b> Slider permettant de modifier la distance du point lumineux au centre de la scène (<b>[0;10]</b>)</li>
+            <li><b>Longitude lampe:</b> Slider permettant de changer la position de cette lumière (longitude, en coordonnées sphériques) (<b>[-pi;pi]</b>)</li>
+            <li><b>Colatitude lampe:</b> Slider permettant de changer la position de cette lumière (colatitude, en coordonnées sphériques) (<b>[-pi;pi]</b>)</li>
+            <li><i>Torche (spotlight)</i></li>
+            <li><b>Lumière de la torche:</b> Active (ou non) une lumière semblable à une lampe torche provenant de la caméra.</li>
+        </ul>
+
+
+    </section>
+    
 </body>
 </html>
