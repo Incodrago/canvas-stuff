@@ -377,6 +377,34 @@
                 Renvoie une liste des entreprises.
             </p>
         </div>
+        <div class="centre GET">
+            <span class="url">/{entreprise}/affaires</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie la liste des affaires de l'entreprise dont l'id correspond à <i>{entreprise}</i>.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{entreprise}/projets</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie la liste des projets de l'entreprise dont l'id correspond à <i>{entreprise}</i>.
+            </p>
+        </div>
         <div class="centre POST">
             <span class="url">/</span> <span class="method">POST</span>
             <br>
@@ -390,9 +418,13 @@
             <p>
                 Permets de créer une nouvelle entreprise.
                 <br>
-                Le champ <i>nom</i> de l'entreprise doit être renseigné.
+                Le champ <i>nom</i> de l'entreprise doit être renseigné (obligatoire pour la création).
                 <br>
                 On peut renseigner les champs: <i>email</i>, <i>telephone</i>, <i>adresse</i>.
+                <br />
+                <br />
+                Exemple de corps de requête: { "entreprise": { "nom": "companyName", "adresse": "7 rue de la fontaine" } }
+                <br />
                 <br>
                 Renvoie les informations de l'entreprise créée.
             </p>
@@ -410,9 +442,13 @@
             <p>
                 Mets à jour les données de l'entreprise dont l'id correspond à <i>{entreprise}</i>.
                 <br>
-                Champs à changer: <i>nom</i>, <i>email</i>, <i>telephone</i>, <i>adresse</i>.
+                Champs modifiables: <i>nom</i>, <i>email</i>, <i>telephone</i>, <i>adresse</i>.
+                <br />
+                <br />
+                Exemple de corps de requête: { "entreprise": { "nom": "newCompanyName" }}
+                <br />
                 <br>
-                Renvoie les données de l'entreprise modifiée.
+                Renvoie les nouvelles données de l'entreprise modifiée.
             </p>
         </div>
         <div class="centre DELETE">
