@@ -468,6 +468,112 @@
             </p>
         </div>
 
+        <h2>Affaires</h2>
+        <p class="undertitle">https://epreuve.idea43.net/api/affaires</p>
+        <p class="undertitle">Paramètres d'URL: {affaire} doit être remplacé par l'id d'une affaire.</p>
+
+        <div class="centre GET">
+            <span class="url">/{affaire}</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Renvoie les infos de l'affaire dont l'id correspond à <i>{affaire}</i>.
+                <br />
+                <br />
+                Attention, si l'utilisateur faisant la demande ne fait pas partie de l'entreprise à laquelle appartient l'affaire, alors l'api renverra une erreur 404 (pour cacher la possible existence de l'affaire).
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{affaire}/projets</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Renvoie les projets de l'affaire dont l'id correspond à <i>{affaire}</i>.
+                <br />
+                <br />
+                Attention, si l'utilisateur faisant la demande ne fait pas partie de l'entreprise à laquelle appartient l'affaire, alors l'api renverra une erreur 404 (pour cacher la possible existence de l'affaire).
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Permet de créer une nouvelle affaire.
+                <br>
+                Le champ <i>name</i> doit être renseigné (obligatoire) dans le corps de la requête.
+                <br />
+                <br />
+                Exemple de corps de requête: { "affaire": { "name": "nomAffaire" }}
+                <br />
+                <br>
+                Renvoie les informations de l'affaire créée'.
+            </p>
+        </div>
+        <div class="centre PUT">
+            <span class="url">/{affaire}</span> <span class="method">PUT</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Mets à jour les champs de l'affaire dont l'id correspond à <i>{affaire}</i>.
+                <br>
+                Champs modifiables: <i>name</i>.
+                <br>
+                <br />
+                Exemple de corps de requête: { "affaire": { "name": "newNameValue" } }
+                <br />
+                <br />
+                Attention, si l'utilisateur faisant la demande ne fait pas partie de l'entreprise à laquelle appartient l'affaire, alors l'api renverra une erreur 404 (pour cacher la possible existence de l'affaire).
+                <br />
+                Si l'utilisateur faisant la demande n'est pas le créateur de l'affaire, l'api refusera le changement.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{affaire}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+            </p>
+            <p>
+                Supprime l'affaire dont l'id correspond à <i>{affaire}</i>.
+                <br>
+                <br />
+                Attention, si l'utilisateur faisant la demande ne fait pas partie de l'entreprise à laquelle appartient l'affaire, alors l'api renverra une erreur 404 (pour cacher la possible existence de l'affaire).
+                <br />
+                Aussi, si l'affaire contient des projets, l'api refusera de supprimer l'affaire.
+                <br /><br />
+                Renvoie un message de confirmation de suppression de l'affaire.
+            </p>
+        </div>
+
         <h2>Projets</h2>
         <p class="undertitle">https://epreuve.idea43.net/api/projets</p>
 
