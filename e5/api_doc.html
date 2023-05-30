@@ -1,9 +1,470 @@
+<!doctype html>
 <html>
 <head>
-    <title></title>
-    <meta charset="utf-8" />
+    <title>doc api aws</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            background-color: #222021;
+            color: #BEBDB8;
+            font-family: sans-serif;
+        }
+
+        #placement {
+            margin: auto;
+            width: 50%;
+            /*border: 3px solid green;*/
+            padding: 10px;
+        }
+
+        .centre {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+            border-bottom: 1px solid grey;
+            border-top: 1px solid grey;
+        }
+
+        .method {
+            text-align: end;
+            display: inline-block;
+            float: right;
+        }
+
+        .url {
+            float: left;
+        }
+
+        .GET {
+            background-color: #1d3564;
+            font-weight: 700;
+            /*border: 3px solid grey;*/
+        }
+
+        .POST {
+            background-color: #29681e;
+            font-weight: 700;
+            /*border: 3px solid grey;*/
+        }
+
+        .PUT {
+            background-color: #985d10;
+            font-weight: 700;
+            /*border: 3px solid grey;*/
+        }
+
+        .DELETE {
+            background-color: #910f0f;
+            font-weight: 700;
+            /*border: 3px solid grey;*/
+        }
+    </style>
 </head>
 <body>
+    <div id="placement">
+        <h2>Obtention d'un token:</h2>
+        <p class="undertitle">Les requêtes nécessitent pour la plupart un token JWT. <br />Ces tokens doivent être placés dans le header "Authorization": "Bearer <i>TOKEN</i>"</p>
+        <p class="undertitle">
+            Pour obtenir un token administrateur, faire une requête à /admins/login (voir documentation),
+            <br />
+            avec comme corps de requête: { "admin": { "adminname": "<i>identifiant</i>", "password": "<i>motDePasse</i>" } }
+            <br />
+            Identifiants pour obtenir token administrateur: Adminname "admin1", Mot de passe "admin1"
+        </p>
+        <p class="undertitle">
+            Pour obtenir un token utilisateur, faire une requête à /users/login (voir documentation),
+            <br />
+            avec comme corps de requête: { "user": { "username": "<i>identifiant</i>", "password": "<i>motDePasse</i>" } }
+            <br />
+            Identifiants pour obtenir token utilisateur: Username "jimHalpert", Mot de passe "cecedad"
+        </p>
+        <h2>Admins</h2>
+        <p class="undertitle">https://epreuve.idea43.net/api/admins</p>
+
+        <div class="centre GET">
+            <span class="url">/{admin}</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie l'administrateur dont l'id correspond à <i>{admin}</i>.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/login</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: <i>none</i>.
+            </p>
+            <p>
+                Permets de login un administrateur en passant dans le corps de la requête le <i>adminname</i> et le <i>password</i>.
+                <br>
+                Renvoie l'administrateur connecté, avec un token.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/logout</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: <i>none</i>.
+            </p>
+            <p>
+                Permets de logout un administrateur.
+                <br>
+                Ne fait rien côté serveur, mais côté client il faut supprimer le token.
+                <br>
+                Renvoie un message de confirmation du logout.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Voir description.
+            </p>
+            <p>
+                Permet de créer un nouvel administrateur.
+                <br>
+                Les champs <i>adminname</i> et <i>password</i> doivent être renseignés dans le corps de la requête.
+                <br>
+                On peut aussi indiquer <i>admin: true</i> pour créer un administrateur admin.
+                <br>
+                Doit nécessiter un token d'administrateur admin, mais ne le fait pas pour l'instant (debug).
+                <br>
+                Renvoie l'administrateur créé.
+            </p>
+        </div>
+        <div class="centre PUT">
+            <span class="url">/{admin}</span> <span class="method">PUT</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Mets à jour les champs de l'administrateur dont l'id correspond à <i>{admin}</i>.
+                <br>
+                Champs à changer: <i>adminname</i>, <i>email</i>, <i>password</i>, <i>nom</i>, <i>prenom</i>.
+                <br>
+                Renvoie l'administrateur modifié.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{admin}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Supprime l'administrateur dont l'id correspond à <i>{admin}</i>.
+                <br>
+                Renvoie un message de confirmation de suppression de l'administrateur.
+            </p>
+        </div>
+
+        <h2>Users</h2>
+        <p class="undertitle">https://epreuve.idea43.net/api/users</p>
+
+        <div class="centre GET">
+            <span class="url">/</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: page, limit.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie une liste de users. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{user}</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie les informations de l'utilisateur dont l'id correspond à <i>{user}</i>.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/login</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: <i>none</i>.
+            </p>
+            <p>
+                Permets de login un user en passant dans le corps de la requête le <i>username</i> et le <i>password</i>.
+                <br>
+                Renvoie l'user connecté, avec un token.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/logout</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: <i>none</i>.
+            </p>
+            <p>
+                Permets de logout un user.
+                <br>
+                Ne fait rien côté serveur, mais côté client il faut supprimer le token.
+                <br>
+                Renvoie un message de confirmation du logout.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Permet de créer un nouveau user.
+                <br>
+                Les champs <i>username</i> et <i>password</i> doivent être renseignés dans le corps de la requête.
+                <br>
+                Renvoie l'user créé.
+            </p>
+        </div>
+        <div class="centre PUT">
+            <span class="url">/{user}</span> <span class="method">PUT</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Mets à jour les données de l'user dont l'id correspond à <i>{user}</i>.
+                <br>
+                Champs à changer: <i>username</i>, <i>email</i>, <i>telephone</i>, <i>password</i>, <i>nom</i>, <i>prenom</i>.
+                <br>
+                Renvoie les données de l'user.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{user}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Supprime l'user dont l'id correspond à <i>{user}</i>.
+                <br>
+                Renvoie un message de confirmation de suppression de l'user.
+            </p>
+        </div>
+
+
+        <h2>Entreprises</h2>
+        <p class="undertitle">https://epreuve.idea43.net/api/entreprises</p>
+
+        <div class="centre GET">
+            <span class="url">/{entreprise}</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie les informations de l'entreprise dont l'id correspond à <i>{entreprise}</i>.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: page, limit.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Renvoie une liste de users. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Permets de créer une nouvelle entreprise.
+                <br>
+                Le champ <i>nom</i> de l'entreprise doit être renseigné.
+                <br>
+                On peut renseigner les champs: <i>email</i>, <i>telephone</i>, <i>adresse</i>.
+                <br>
+                Renvoie les informations de l'entreprise créée.
+            </p>
+        </div>
+        <div class="centre PUT">
+            <span class="url">/{entreprise}</span> <span class="method">PUT</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Mets à jour les données de l'entreprise dont l'id correspond à <i>{entreprise}</i>.
+                <br>
+                Champs à changer: <i>nom</i>, <i>email</i>, <i>telephone</i>, <i>adresse</i>.
+                <br>
+                Renvoie les données de l'entreprise modifiée.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{entreprise}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Administrateur.
+            </p>
+            <p>
+                Supprime l'entreprise dont l'id correspond à <i>{entreprise}</i>.
+                <br>
+                Renvoie un message de confirmation de la suppression de l'entreprise.
+            </p>
+        </div>
+
+        <h2>Projets</h2>
+        <p class="undertitle">https://epreuve.idea43.net/api/projets</p>
+
+        <div class="centre GET">
+            <span class="url">/</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: User.
+            </p>
+            <p>
+                Renvoie une liste de projets appartenant au user auquel appartient le token. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{fileName}</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: User.
+            </p>
+            <p>
+                Renvoie les informations sur le projet concerné avec une url pour télécharger le fichier du projet. Le user auquel appartient le token doit être propriétaire de ce projet.
+                <br>
+                L'url de téléchargement est valide pour 1 minute.
+                <br>
+                <i>{fileName}</i> doit correspondre au nom du projet.
+            </p>
+        </div>
+        <div class="centre POST">
+            <span class="url">/{fileName}</span> <span class="method">POST</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: User.
+            </p>
+            <p>
+                Créé un projet avec les informations contenues dans le corps de la requête.
+                <br>
+                <i>{fileName}</i> correspond au nom du projet.
+                <br>
+                Si le projet n'existe pas, il est créé. Si il existe, il est mis à jour avec les informations données.
+                <br>
+                Renvoie les données du projet créé ou mis à jour, avec une URL valide pour 1 minute pour upload le fichier sur AWS S3.
+            </p>
+        </div>
+        <div class="centre DELETE">
+            <span class="url">/{fileName}</span> <span class="method">DELETE</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: User.
+            </p>
+            <p>
+                Supprime le projet dont le nom correspond à <i>{fileName}</i>.
+                <br>
+                Le user auquel appartient le token doit être le propriétaire du projet.
+                <br>
+                Renvoie un message de confirmation de suppression de l'objet.
+            </p>
+        </div>
+    </div>
 
 </body>
 </html>
