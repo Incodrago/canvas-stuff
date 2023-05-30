@@ -80,6 +80,7 @@
         </p>
         <h2>Admins</h2>
         <p class="undertitle">https://epreuve.idea43.net/api/admins</p>
+        <p class="undertitle">Paramètres d'URL: {admin} doit être remplacé par l'id d'un administrateur.</p>
 
         <div class="centre GET">
             <span class="url">/{admin}</span> <span class="method">GET</span>
@@ -92,7 +93,7 @@
                 Token nécessaire: Administrateur.
             </p>
             <p>
-                Renvoie l'administrateur dont l'id correspond à <i>{admin}</i>.
+                Renvoie les infos de l'administrateur dont l'id correspond à <i>{admin}</i>.
             </p>
         </div>
         <div class="centre POST">
@@ -137,16 +138,18 @@
                 Query: <i>none</i>.
             </p>
             <p>
-                Token nécessaire: Voir description.
+                Token nécessaire: Administrateur.
             </p>
             <p>
                 Permet de créer un nouvel administrateur.
                 <br>
-                Les champs <i>adminname</i> et <i>password</i> doivent être renseignés dans le corps de la requête.
+                Les champs <i>adminname</i> et <i>password</i> doivent être renseignés (obligatoire) dans le corps de la requête.
                 <br>
-                On peut aussi indiquer <i>admin: true</i> pour créer un administrateur admin.
-                <br>
-                Doit nécessiter un token d'administrateur admin, mais ne le fait pas pour l'instant (debug).
+                On peut aussi préciser: <i>email, nom, prenom</i>.
+                <br />
+                <br />
+                Exemple de corps de requête: { "admin": { "adminname": "newName", "password": "newPass", "email": "new@email.com" }}
+                <br />
                 <br>
                 Renvoie l'administrateur créé.
             </p>
@@ -166,6 +169,10 @@
                 <br>
                 Champs à changer: <i>adminname</i>, <i>email</i>, <i>password</i>, <i>nom</i>, <i>prenom</i>.
                 <br>
+                <br />
+                Exemple de corps de requête: { "admin": { "email": "newEmailValue" } }
+                <br />
+                <br />
                 Renvoie l'administrateur modifié.
             </p>
         </div>
@@ -188,19 +195,20 @@
 
         <h2>Users</h2>
         <p class="undertitle">https://epreuve.idea43.net/api/users</p>
+        <p class="undertitle">Paramètres d'URL: {user} doit être remplacé par l'id d'un utilisateur.</p>
 
         <div class="centre GET">
             <span class="url">/</span> <span class="method">GET</span>
             <br>
             <hr>
             <p>
-                Query: page, limit.
+                Query: <i>none</i>.
             </p>
             <p>
                 Token nécessaire: Administrateur.
             </p>
             <p>
-                Renvoie une liste de users. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+                Renvoie la liste des utilisateurs.
             </p>
         </div>
         <div class="centre GET">
@@ -215,6 +223,25 @@
             </p>
             <p>
                 Renvoie les informations de l'utilisateur dont l'id correspond à <i>{user}</i>.
+                <br />
+                Cette requête est aussi possible avec un token utilisateur, sous la condition que le token appartienne à l'utilisateur dont on demande les informations.
+            </p>
+        </div>
+        <div class="centre GET">
+            <span class="url">/{user}/projets</span> <span class="method">GET</span>
+            <br>
+            <hr>
+            <p>
+                Query: <i>none</i>.
+            </p>
+            <p>
+                Token nécessaire: Utilisateur.
+                <br />
+                <br />
+                Le Token doit être celui de l'utilisateur dont l'ID correspond à {user}.
+            </p>
+            <p>
+                Renvoie la liste des projets appartenant à l'utilisateur dont l'ID correspond à <i>{user}</i>.
             </p>
         </div>
         <div class="centre POST">
@@ -264,8 +291,17 @@
             <p>
                 Permet de créer un nouveau user.
                 <br>
-                Les champs <i>username</i> et <i>password</i> doivent être renseignés dans le corps de la requête.
+                Les champs <i>username</i>, <i>password</i> et <i>entreprise</i> doivent être renseignés (obligatoires) dans le corps de la requête.
+                <br />
+                Le champ <i>entreprise</i> doit correspondre à un ID d'une entreprise existante!
+                <br />
+                <br />
+                Peuvent aussi être indiqués les champs: <i>email, telephone, nom, prenom</i>.
                 <br>
+                <br />
+                Exemple de corps de requête: { "user": { "username": "newName", "password": "newPass", "entreprise": "idEntreprise", "email": "new@email.com" }}
+                <br />
+                <br />
                 Renvoie l'user créé.
             </p>
         </div>
@@ -283,8 +319,12 @@
                 Mets à jour les données de l'user dont l'id correspond à <i>{user}</i>.
                 <br>
                 Champs à changer: <i>username</i>, <i>email</i>, <i>telephone</i>, <i>password</i>, <i>nom</i>, <i>prenom</i>.
+                <br />
                 <br>
-                Renvoie les données de l'user.
+                Exemple de corps de requête: { "user": { "telephone": "0123456789" }}
+                <br />
+                <br />
+                Renvoie les nouvelles données de l'user.
             </p>
         </div>
         <div class="centre DELETE">
@@ -307,6 +347,7 @@
 
         <h2>Entreprises</h2>
         <p class="undertitle">https://epreuve.idea43.net/api/entreprises</p>
+        <p class="undertitle">Paramètres d'URL: {entreprise} doit être remplacé par l'id d'une entreprise.</p>
 
         <div class="centre GET">
             <span class="url">/{entreprise}</span> <span class="method">GET</span>
@@ -327,13 +368,13 @@
             <br>
             <hr>
             <p>
-                Query: page, limit.
+                Query: <i>none</i>.
             </p>
             <p>
                 Token nécessaire: Administrateur.
             </p>
             <p>
-                Renvoie une liste de users. La taille de la liste est indiquée par la query <i>limit</i>, la page est indiquée par la query <i>page</i>.
+                Renvoie une liste des entreprises.
             </p>
         </div>
         <div class="centre POST">
@@ -483,7 +524,7 @@
             <br />
             Les tables de la BDD sont:
             <br />
-            <img src="tables.png" width="100%"/>
+            <img src="tables.png" width="100%" />
         </p>
     </div>
 
