@@ -1,0 +1,99 @@
+<<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thibaud Demars - Portfolio</title>
+  <link rel="stylesheet" href="./portfolio.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h1>Portfolio</h1>
+  <div id="cards">
+    <a href="https://www.idea43.com" target="_blank">
+    <div class="card">
+      <div class="card-content" id="idea">
+        <div class="card-image">
+        </div>
+        <div class="card-info-wrapper">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Idea43.com</h3>
+              <h4>Design site web</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </a>
+    <a href="https://incodrago.github.io/thibauddemars/portfolio/blender.html" target="_blank">
+    <div class="card">
+      <div class="card-content" id="blender">
+        <div class="card-image">
+        </div>
+        <div class="card-info-wrapper">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Modélisation 3D</h3>
+              <h4>Avec Blender</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </a>
+    <a href="https://incodrago.github.io/thibauddemars/portfolio/api/api_doc.html" target="_blank">
+    <div class="card">
+      <div class="card-content" id="aws">
+        <div class="card-image">
+        </div>
+        <div class="card-info-wrapper">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Api Web (AWS)</h3>
+              <h4>Conception d'une api avec les services AWS</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </a>
+    <a href="https://incodrago.github.io/thibauddemars/portfolio/opengl/opengl_doc.html" target="_blank">
+    <div class="card">
+      <div class="card-content" id="opengl">
+        <div class="card-image">
+        </div>
+        <div class="card-info-wrapper">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Moteur de Rendu 3D</h3>
+              <h4>Avec OpenGL</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </a>
+    <div class="card">
+      <div class="card-content"></div>
+    </div>
+    <div class="card">
+      <div class="card-content"></div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("cards").onmousemove = e => {
+      for (const card of document.getElementsByClassName("card")) {
+        const rect = card.getBoundingClientRect(),
+          x = e.clientX - rect.left,
+          y = e.clientY - rect.top;
+
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      };
+    }
+  </script>
+</body>
+</html>
